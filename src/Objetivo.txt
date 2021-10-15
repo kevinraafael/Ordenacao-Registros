@@ -1,0 +1,9 @@
+O principal :
+	-Ler  um inteiro n : que vai ser o número de estudantes
+	-  ler o registro de estudante 
+		- int rga,char[]nome,double media final
+	-Ler Operação de ordenação
+	-Ler um inteiro para indicar o numero de buscar a serem feitas
+	-Ler o valor da busca ( pode ser por nome rga ou media - de acordo com o mesmo tipo da operacao)
+	- Imprimir os resultados da busca
+	- imprimir o vetor ordenado
