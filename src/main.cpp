@@ -1,13 +1,21 @@
 #include <cstdio>
 #include <stdlib.h> // Pra usar o Malloc
-
+#include <string.h>
 struct Estudante
 {
     int RGA;
     char nome[100];
     double media;
 };
-void merge(Estudante v[], int inicio, int meio, int fim)
+bool compara(bool condition)
+{
+    if (condition)
+    {
+        return true;
+    }
+    return false;
+}
+void merge(Estudante v[], int inicio, int meio, int fim, char op)
 {
     int p1, p2, tamanho, i, j, k;
     int fim1 = 0, fim2 = 0;
@@ -23,14 +31,40 @@ void merge(Estudante v[], int inicio, int meio, int fim)
         {
             if (!fim1 && !fim2)
             {
-                if (v[p1].RGA < v[p2].RGA)
+                if (op == 'r')
                 {
-                    temp[i] = v[p1++];
+                    if (compara(v[p1].RGA < v[p2].RGA))
+                    {
+                        temp[i] = v[p1++];
+                    }
+                    else
+                    {
+                        temp[i] = v[p2++];
+                    }
                 }
-                else
+                else if (op == 'n')
                 {
-                    temp[i] = v[p2++];
+                    if (compara(strcmp(v[p1].nome, v[p2].nome) < 0))
+                    {
+                        temp[i] = v[p1++];
+                    }
+                    else
+                    {
+                        temp[i] = v[p2++];
+                    }
                 }
+                else if (op == 'm')
+                {
+                    if (compara(v[p1].media < v[p2].media))
+                    {
+                        temp[i] = v[p1++];
+                    }
+                    else
+                    {
+                        temp[i] = v[p2++];
+                    }
+                }
+
                 if (p1 > meio)
                 {
                     fim1 = 1; // Verifico se  o vetor acabou
@@ -59,15 +93,16 @@ void merge(Estudante v[], int inicio, int meio, int fim)
     }
     free(temp);
 }
-void mergeSort(Estudante v[], int inicio, int fim)
+
+void mergeSort(Estudante v[], int inicio, int fim, char op)
 {
     int meio;
     if (inicio < fim)
     {
         meio = (inicio + fim) / 2;
-        mergeSort(v, inicio, meio);  //Percorre a primeira metade
-        mergeSort(v, meio + 1, fim); //Percorre a segunda metade
-        merge(v, inicio, meio, fim); // combina as 2 metades de forma ordenada
+        mergeSort(v, inicio, meio, op);  //Percorre a primeira metade
+        mergeSort(v, meio + 1, fim, op); //Percorre a segunda metade
+        merge(v, inicio, meio, fim, op); // combina as 2 metades de forma ordenada
     }
 }
 
@@ -76,7 +111,7 @@ void ordenaEstudantes(Estudante v[], int n, char op)
     int inicio, fim;
     inicio = 0;
     fim = n - 1;
-    mergeSort(v, inicio, fim);
+    mergeSort(v, inicio, fim, op);
 }
 
 void imprimeEstudantes(Estudante v[], int n)
@@ -104,6 +139,7 @@ int main()
 
     imprimeEstudantes(estudantes, n);
     printf("\n----ORDENADO COM RGA-------\n");
-    ordenaEstudantes(estudantes, n, 'r');
+    char letter = 'm';
+    ordenaEstudantes(estudantes, n, letter);
     imprimeEstudantes(estudantes, n);
 }
