@@ -9,12 +9,13 @@ struct Estudante
 };
 void merge(Estudante v[], int inicio, int meio, int fim)
 {
-    int *temp, p1, p2, tamanho, i, j, k;
+    int p1, p2, tamanho, i, j, k;
     int fim1 = 0, fim2 = 0;
     tamanho = fim - inicio + 1;
     p1 = inicio;
     p2 = meio + 1;
-    temp = (int *)malloc(tamanho * sizeof(int)); // alocando espaço para meu vetor auxiliar
+    Estudante temp[tamanho];
+    //temp = (Estudante *)malloc(tamanho * sizeof(int)); // alocando espaço para meu vetor auxiliar
 
     if (temp != NULL)
     {
@@ -24,11 +25,11 @@ void merge(Estudante v[], int inicio, int meio, int fim)
             {
                 if (v[p1].RGA < v[p2].RGA)
                 {
-                    temp[i] = v[p1++].RGA;
+                    temp[i] = v[p1++];
                 }
                 else
                 {
-                    temp[i] = v[p2++].RGA;
+                    temp[i] = v[p2++];
                 }
                 if (p1 > meio)
                 {
@@ -43,17 +44,17 @@ void merge(Estudante v[], int inicio, int meio, int fim)
             {
                 if (!fim1)
                 {
-                    temp[i] = v[p1++].RGA; // Copio o que sobrou para o meu vetor auxiliar
+                    temp[i] = v[p1++]; // Copio o que sobrou para o meu vetor auxiliar
                 }
                 else
                 {
-                    temp[i] = v[p2++].RGA; // Copio o que sobrou para o meu vetor auxiliar
+                    temp[i] = v[p2++]; // Copio o que sobrou para o meu vetor auxiliar
                 }
             }
         }
         for (j = 0, k = inicio; j < tamanho; j++, k++) // Copio o conteúdo ordenado do vetor auxiliar para o meu original
         {
-            v[k].RGA = temp[j];
+            v[k] = temp[j];
         }
     }
     free(temp);
