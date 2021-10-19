@@ -1,4 +1,5 @@
 #include <cstdio>
+#include <stdlib.h> // Pra usar o Malloc
 
 struct Estudante
 {
@@ -6,6 +7,77 @@ struct Estudante
     char nome[100];
     double media;
 };
+void merge(Estudante v[], int inicio, int meio, int fim)
+{
+    int *temp, p1, p2, tamanho, i, j, k;
+    int fim1 = 0, fim2 = 0;
+    tamanho = fim - inicio + 1;
+    p1 = inicio;
+    p2 = meio + 1;
+    temp = (int *)malloc(tamanho * sizeof(int)); // alocando espaço para meu vetor auxiliar
+
+    if (temp != NULL)
+    {
+        for (i = 0; i < tamanho; i++)
+        {
+            if (!fim1 && !fim2)
+            {
+                if (v[p1].RGA < v[p2].RGA)
+                {
+                    temp[i] = v[p1++].RGA;
+                }
+                else
+                {
+                    temp[i] = v[p2++].RGA;
+                }
+                if (p1 > meio)
+                {
+                    fim1 = 1; // Verifico se  o vetor acabou
+                }
+                if (p2 > fim)
+                {
+                    fim2 = 1; //Verifico se o vetor acabou
+                }
+            }
+            else
+            {
+                if (!fim1)
+                {
+                    temp[i] = v[p1++].RGA; // Copio o que sobrou para o meu vetor auxiliar
+                }
+                else
+                {
+                    temp[i] = v[p2++].RGA; // Copio o que sobrou para o meu vetor auxiliar
+                }
+            }
+        }
+        for (j = 0, k = inicio; j < tamanho; j++, k++) // Copio o conteúdo ordenado do vetor auxiliar para o meu original
+        {
+            v[k].RGA = temp[j];
+        }
+    }
+    free(temp);
+}
+void mergeSort(Estudante v[], int inicio, int fim)
+{
+    int meio;
+    if (inicio < fim)
+    {
+        meio = (inicio + fim) / 2;
+        mergeSort(v, inicio, meio);  //Percorre a primeira metade
+        mergeSort(v, meio + 1, fim); //Percorre a segunda metade
+        merge(v, inicio, meio, fim); // combina as 2 metades de forma ordenada
+    }
+}
+
+void ordenaEstudantes(Estudante v[], int n, char op)
+{
+    int inicio, fim;
+    inicio = 0;
+    fim = n - 1;
+    mergeSort(v, inicio, fim);
+}
+
 void imprimeEstudantes(Estudante v[], int n)
 {
     for (int i = 0; i < n; i++)
@@ -21,18 +93,16 @@ int main()
     int n;
     scanf("%d", &n);
     Estudante estudantes[n];
-    /*  char nome[100];
-    scanf("%[^\n]", &nome);
-    printf("\n O nome eh :%s", nome); */
+
     for (int i = 0; i < n; i++)
     {
         scanf("%d", &estudantes[i].RGA);
-        fflush(stdin);
-        scanf("%[^\n]", &estudantes[i].nome);
-        fflush(stdin);
+        scanf(" %[^\n]", &estudantes[i].nome);
         scanf("%lf", &estudantes[i].media);
-        fflush(stdin);
     }
 
+    imprimeEstudantes(estudantes, n);
+    printf("\n----ORDENADO COM RGA-------\n");
+    ordenaEstudantes(estudantes, n, 'r');
     imprimeEstudantes(estudantes, n);
 }
