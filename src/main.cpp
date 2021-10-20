@@ -4,7 +4,7 @@
 struct Estudante
 {
     int RGA;
-    char nome[100];
+    char nome[101];
     double media;
 };
 bool compara(bool condition)
@@ -127,6 +127,7 @@ void imprimeEstudantes(Estudante v[], int n)
 int main()
 {
     int n;
+    char op;
     scanf("%d", &n);
     Estudante estudantes[n];
 
@@ -136,10 +137,10 @@ int main()
         scanf(" %[^\n]", &estudantes[i].nome);
         scanf("%lf", &estudantes[i].media);
     }
-
+    scanf(" %c", &op);
     imprimeEstudantes(estudantes, n);
-    printf("\n----ORDENADO COM RGA-------\n");
-    char letter = 'm';
-    ordenaEstudantes(estudantes, n, letter);
+    printf("\n----ORDENADO COM %c -------\n", op);
+    //char letter = 'm';
+    ordenaEstudantes(estudantes, n, op);
     imprimeEstudantes(estudantes, n);
 }
