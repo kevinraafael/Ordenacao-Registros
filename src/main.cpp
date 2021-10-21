@@ -1,5 +1,4 @@
 #include <cstdio>
-#include <stdlib.h> // Pra usar o Malloc
 #include <string.h>
 struct Estudante
 {
@@ -7,14 +6,14 @@ struct Estudante
     char nome[101];
     double media;
 };
-bool compara(bool condition)
-{
-    if (condition)
-    {
-        return true;
-    }
-    return false;
-}
+// bool compara(bool condition)
+// {
+//     if (condition)
+//     {
+//         return true;
+//     }
+//     return false;
+// }
 void merge(Estudante v[], int inicio, int meio, int fim, char op)
 {
     int p1, p2, tamanho, i, j, k;
@@ -23,7 +22,6 @@ void merge(Estudante v[], int inicio, int meio, int fim, char op)
     p1 = inicio;
     p2 = meio + 1;
     Estudante temp[tamanho];
-    // temp = (Estudante *)malloc(tamanho * sizeof(int)); // alocando espaço para meu vetor auxiliar
 
     if (temp != NULL)
     {
@@ -33,7 +31,7 @@ void merge(Estudante v[], int inicio, int meio, int fim, char op)
             {
                 if (op == 'r')
                 {
-                    if (compara(v[p1].RGA < v[p2].RGA))
+                    if ((v[p1].RGA < v[p2].RGA))
                     {
                         temp[i] = v[p1++];
                     }
@@ -44,7 +42,7 @@ void merge(Estudante v[], int inicio, int meio, int fim, char op)
                 }
                 else if (op == 'n')
                 {
-                    if (compara(strcmp(v[p1].nome, v[p2].nome) < 0))
+                    if ((strcmp(v[p1].nome, v[p2].nome) < 0))
                     {
                         temp[i] = v[p1++];
                     }
@@ -55,7 +53,7 @@ void merge(Estudante v[], int inicio, int meio, int fim, char op)
                 }
                 else if (op == 'm')
                 {
-                    if (compara(v[p1].media < v[p2].media))
+                    if ((v[p1].media < v[p2].media))
                     {
                         temp[i] = v[p1++];
                     }
@@ -91,7 +89,6 @@ void merge(Estudante v[], int inicio, int meio, int fim, char op)
             v[k] = temp[j];
         }
     }
-    free(temp);
 }
 
 void mergeSort(Estudante v[], int inicio, int fim, char op)
@@ -127,7 +124,6 @@ void imprimeEstudantes(Estudante v[], int n)
     for (int i = 0; i < n; i++)
     {
         imprimeEstudante(v, i);
-        printf("------------\n");
     }
 }
 
@@ -219,7 +215,7 @@ int main()
     for (int i = 0; i < n; i++)
     {
         scanf("%d", &estudantes[i].RGA);
-        scanf(" %[^\n]", &estudantes[i].nome);
+        scanf(" %[^\n]", estudantes[i].nome);
         scanf("%lf", &estudantes[i].media);
     }
     scanf(" %c", &op);
@@ -240,7 +236,7 @@ int main()
         }
         else if (op == 'n')
         {
-            scanf(" %[^\n]", &nome);
+            scanf(" %[^\n]", nome);
             int posicao = buscaNome(estudantes, n, nome);
             imprimeEstudante(estudantes, posicao);
         }
@@ -252,12 +248,4 @@ int main()
         }
     }
     imprimeEstudantes(estudantes, n);
-    /*  imprimeEstudantes(estudantes, n);
-     printf("\n----ORDENADO COM %c -------\n", op);
-     ordenaEstudantes(estudantes, n, op);
-     imprimeEstudantes(estudantes, n); */
-    // char nome2[101];
-    // scanf(" %[^\n]", nome2);
-
-    // printf("\n a BUSCA NOME GURIZADA %d", buscaMedia(estudantes, n, 15));
 }
